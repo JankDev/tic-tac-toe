@@ -1,0 +1,22 @@
+* {
+  padding: 0;
+}
+::ng-deep .mat-grid-list{
+  height: 300px !important;
+  width: 300px !important;
+  box-sizing: border-box;
+}
+.mat-grid-tile {
+  border: solid 2px #000;
+}
+.mat-grid-tile:hover{
+  background-color: lightgray;
+}
+.mat-grid-tile div{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}

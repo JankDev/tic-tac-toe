@@ -1,0 +1,22 @@
+.container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+app-board {
+  box-sizing: border-box;
+}
+
+.button-container {
+  margin-left: 10px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+button {
+  width: 100%;
+}

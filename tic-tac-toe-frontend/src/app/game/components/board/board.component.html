@@ -1,0 +1,5 @@
+<mat-grid-list [cols]="size" rowHeight="1:1">
+  <mat-grid-tile *ngFor="let i of [].constructor(size*size)">
+    <div #field (click)="markField(field)"></div>
+  </mat-grid-tile>
+</mat-grid-list>
