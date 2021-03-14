@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Action, Selector, State, StateContext} from '@ngxs/store';
+import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {TickTackToeBoard} from '../models/tick-tack-toe-board.model';
 import {MarkField, Restart} from './root-store.actions';
+import {Subject} from 'rxjs';
+import {filter, map, take} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export type TicTacToeSign = 'O' | 'X';
 
@@ -21,6 +24,8 @@ export interface RootStateModel {
   providedIn: 'root'
 })
 export class RootStore {
+  private gameFinished$ = new Subject<TickTackToeBoard>();
+
   @Selector()
   static currentPlayer({currentPlayer}: RootStateModel): TicTacToeSign {
     return currentPlayer;
@@ -31,7 +36,16 @@ export class RootStore {
     return board;
   }
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar,
+              private store: Store) {
+    this.gameFinished$.pipe(
+      map(board => board.getWinner()),
+      filter(it => !!it),
+      take(1)
+    ).subscribe(winner => {
+      this.snackBar.open(winner);
+      this.store.dispatch(new Restart());
+    });
   }
 
   @Action(MarkField)
@@ -40,6 +54,8 @@ export class RootStore {
     const {currentPlayer, board} = getState();
     const nextPlayer = currentPlayer === 'O' ? 'X' : 'O';
     const nextBoard = board.withMarkedField(index, currentPlayer);
+
+    this.gameFinished$.next(nextBoard);
 
     setState({
       currentPlayer: nextPlayer,
