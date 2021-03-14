@@ -5,13 +5,16 @@
   justify-content: center;
 }
 
+span{
+  font-size: 30px;
+}
 app-board {
   box-sizing: border-box;
 }
 
 .button-container {
   margin-left: 10px;
-  width: 200px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
