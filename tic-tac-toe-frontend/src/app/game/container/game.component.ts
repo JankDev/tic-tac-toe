@@ -33,4 +33,8 @@ export class GameComponent implements OnInit {
     this.store.dispatch(new RootStoreActions.MarkField(this.currentIndex));
     this.currentIndex = null;
   }
+
+  restart(): void {
+    this.store.dispatch(new RootStoreActions.Restart());
+  }
 }

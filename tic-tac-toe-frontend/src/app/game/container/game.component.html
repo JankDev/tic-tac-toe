@@ -6,6 +6,6 @@
   ></app-board>
   <div class="button-container">
     <button *ngIf="currentIndex" (click)="markSelectedField()" mat-raised-button color="primary">Submit</button>
-    <button mat-raised-button color="primary">Restart</button>
+    <button (click)="restart()"mat-raised-button color="primary">Restart</button>
   </div>
 </div>

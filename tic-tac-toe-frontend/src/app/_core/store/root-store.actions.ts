@@ -6,3 +6,10 @@ export class MarkField {
   constructor(public index: Index) {
   }
 }
+
+export class Restart {
+  static readonly type = '[Root] Restart';
+
+  constructor() {
+  }
+}

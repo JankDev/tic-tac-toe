@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {TickTackToeBoard} from '../models/tick-tack-toe-board.model';
-import {MarkField} from './root-store.actions';
+import {MarkField, Restart} from './root-store.actions';
 
 export type TicTacToeSign = 'O' | 'X';
 
@@ -44,6 +44,14 @@ export class RootStore {
     setState({
       currentPlayer: nextPlayer,
       board: nextBoard
+    });
+  }
+
+  @Action(Restart)
+  restart({setState}: StateContext<RootStateModel>): void {
+    setState({
+      currentPlayer: 'X',
+      board: TickTackToeBoard.empty()
     });
   }
 }
