@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {MatGridTile} from '@angular/material/grid-list';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {TicTacToeSign} from '../../../_core/store/root-store';
+import {Index, TickTackToeBoard} from '../../../_core/models/tick-tack-toe-board.model';
 
 @Component({
   selector: 'app-board',
@@ -7,7 +8,12 @@ import {MatGridTile} from '@angular/material/grid-list';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  size = 3;
+  @Input() currentSign: TicTacToeSign;
+  @Input() currentBoard: TickTackToeBoard;
+
+  @Output() fieldMarked = new EventEmitter<Index>();
+
+  private currentField: HTMLDivElement;
 
   constructor() {
   }
@@ -15,8 +21,20 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  markField(field: HTMLDivElement): void {
-    console.log(field);
-    field.innerText = 'X';
+  markField(field: HTMLDivElement, row: number, col: number): void {
+    if (this.fieldNotMarked(field)) {
+      if (!!this.currentField) {
+        this.currentField.innerText = '';
+      }
+
+      this.currentField = field;
+      this.currentField.innerText = this.currentSign;
+      this.fieldMarked.emit(new Index(row, col));
+    }
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private fieldNotMarked(field: HTMLDivElement): boolean {
+    return field.innerText === '';
   }
 }

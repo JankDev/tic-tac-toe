@@ -1,7 +1,11 @@
 <div class="container">
-  <app-board></app-board>
+  <app-board
+    [currentSign]="currentPlayer$ | async"
+    [currentBoard]="currentBoard$ | async"
+    (fieldMarked)="setCurrentIndex($event)"
+  ></app-board>
   <div class="button-container">
-    <button mat-raised-button color="primary">Submit</button>
+    <button *ngIf="currentIndex" (click)="markSelectedField()" mat-raised-button color="primary">Submit</button>
     <button mat-raised-button color="primary">Restart</button>
   </div>
 </div>

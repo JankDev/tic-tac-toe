@@ -1,5 +1,7 @@
-<mat-grid-list [cols]="size" rowHeight="1:1">
-  <mat-grid-tile *ngFor="let i of [].constructor(size*size)">
-    <div #field (click)="markField(field)"></div>
-  </mat-grid-tile>
-</mat-grid-list>
+<div class="container">
+  <ng-container *ngFor="let row of currentBoard.board; let rowIndex=index">
+    <div *ngFor="let col of row;let colIndex=index" #field (click)="markField(field,rowIndex,colIndex)" class="col">
+      {{col}}
+    </div>
+  </ng-container>
+</div>
