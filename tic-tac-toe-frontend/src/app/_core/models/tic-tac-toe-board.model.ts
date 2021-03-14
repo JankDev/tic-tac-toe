@@ -23,13 +23,16 @@ const winningPatterns = [
   {winner: 'O', pattern: /[OXE]{2}O[OXE]O[OXE]O[OXE]{2}/},
 ];
 
-export class TickTackToeBoard {
+export const DRAW_MESSAGE = 'DRAW';
+export const WIN_MESSAGE = (winner) => `${winner} won`;
+
+export class TicTacToeBoard {
 
   constructor(public board: string[][]) {
   }
 
-  static empty(): TickTackToeBoard {
-    return new TickTackToeBoard([['', '', ''], ['', '', ''], ['', '', '']]);
+  static empty(): TicTacToeBoard {
+    return new TicTacToeBoard([['', '', ''], ['', '', ''], ['', '', '']]);
   }
 
   get size(): number {
@@ -46,7 +49,7 @@ export class TickTackToeBoard {
     } else {
       const boardAsString = this.board.map(row => row.map(emptyToE).join('')).join('');
       const win = winningPatterns.find(({winner, pattern}) => pattern.test(boardAsString))?.winner;
-      return !!win ? `${win} won` : null;
+      return !!win ? WIN_MESSAGE(win) : null;
     }
   }
 
@@ -54,9 +57,11 @@ export class TickTackToeBoard {
     return this.board.every(row => row.every(col => col !== ''));
   }
 
-  withMarkedField({row, col}: Index, sign: TicTacToeSign): TickTackToeBoard {
+  withMarkedField({row, col}: Index, sign: TicTacToeSign): TicTacToeBoard {
     const newBoard = this.board.map(arr => [...arr]);
-    newBoard[row][col] = sign;
-    return new TickTackToeBoard(newBoard);
+    if (newBoard[row][col] === '') {
+      newBoard[row][col] = sign;
+    }
+    return new TicTacToeBoard(newBoard);
   }
 }

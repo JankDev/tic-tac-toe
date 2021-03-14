@@ -1,21 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {RootStore, TicTacToeSign} from '../../_core/store/root-store';
-import {Index, TickTackToeBoard} from '../../_core/models/tick-tack-toe-board.model';
+import {Index, TicTacToeBoard} from '../../_core/models/tic-tac-toe-board.model';
 import {RootStoreActions} from '../../_core/store';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent implements OnInit {
   @Select(RootStore.currentPlayer)
   currentPlayer$: Observable<TicTacToeSign>;
 
   @Select(RootStore.currentBoard)
-  currentBoard$: Observable<TickTackToeBoard>;
+  currentBoard$: Observable<TicTacToeBoard>;
 
   currentIndex: Index;
 

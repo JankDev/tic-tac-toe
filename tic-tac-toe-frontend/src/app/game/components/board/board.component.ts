@@ -1,25 +1,20 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {TicTacToeSign} from '../../../_core/store/root-store';
-import {Index, TickTackToeBoard} from '../../../_core/models/tick-tack-toe-board.model';
+import {Index, TicTacToeBoard} from '../../../_core/models/tic-tac-toe-board.model';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css']
+  styleUrls: ['./board.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent {
   @Input() currentSign: TicTacToeSign;
-  @Input() currentBoard: TickTackToeBoard;
+  @Input() currentBoard: TicTacToeBoard;
 
   @Output() fieldMarked = new EventEmitter<Index>();
 
   private currentField: HTMLDivElement;
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
 
   markField(field: HTMLDivElement, row: number, col: number): void {
     if (this.fieldNotMarked(field)) {

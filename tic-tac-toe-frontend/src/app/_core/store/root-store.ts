@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
-import {TickTackToeBoard} from '../models/tick-tack-toe-board.model';
+import {TicTacToeBoard} from '../models/tic-tac-toe-board.model';
 import {MarkField, Restart} from './root-store.actions';
 import {Subject} from 'rxjs';
 import {filter, map, take} from 'rxjs/operators';
@@ -10,21 +10,21 @@ export type TicTacToeSign = 'O' | 'X';
 
 export interface RootStateModel {
   currentPlayer: TicTacToeSign;
-  board: TickTackToeBoard;
+  board: TicTacToeBoard;
 }
 
 @State<RootStateModel>({
   name: 'root',
   defaults: {
     currentPlayer: 'X',
-    board: TickTackToeBoard.empty()
+    board: TicTacToeBoard.empty()
   }
 })
 @Injectable({
   providedIn: 'root'
 })
 export class RootStore {
-  private gameFinished$ = new Subject<TickTackToeBoard>();
+  private gameFinished$ = new Subject<TicTacToeBoard>();
 
   @Selector()
   static currentPlayer({currentPlayer}: RootStateModel): TicTacToeSign {
@@ -32,7 +32,7 @@ export class RootStore {
   }
 
   @Selector()
-  static currentBoard({board}: RootStateModel): TickTackToeBoard {
+  static currentBoard({board}: RootStateModel): TicTacToeBoard {
     return board;
   }
 
@@ -67,7 +67,7 @@ export class RootStore {
   restart({setState}: StateContext<RootStateModel>): void {
     setState({
       currentPlayer: 'X',
-      board: TickTackToeBoard.empty()
+      board: TicTacToeBoard.empty()
     });
   }
 }
