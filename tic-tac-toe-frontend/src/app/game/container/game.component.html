@@ -1,11 +1,13 @@
-<div class="container">
-  <app-board
-    [currentSign]="currentPlayer$ | async"
-    [currentBoard]="currentBoard$ | async"
-    (fieldMarked)="setCurrentIndex($event)"
-  ></app-board>
-  <div class="button-container">
-    <button *ngIf="currentIndex" (click)="markSelectedField()" mat-raised-button color="primary">Submit</button>
-    <button (click)="restart()"mat-raised-button color="primary">Restart</button>
+<app-layout>
+  <div class="container">
+    <app-board
+      [currentSign]="currentPlayer$ | async"
+      [currentBoard]="currentBoard$ | async"
+      (fieldMarked)="setCurrentIndex($event)"
+    ></app-board>
+    <div class="button-container">
+      <button *ngIf="currentIndex" (click)="markSelectedField()" mat-raised-button color="primary">Submit</button>
+      <button (click)="restart()" mat-raised-button color="primary">Restart</button>
+    </div>
   </div>
-</div>
+</app-layout>
