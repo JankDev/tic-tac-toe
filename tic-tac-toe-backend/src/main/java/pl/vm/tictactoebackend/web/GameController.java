@@ -1,12 +1,16 @@
 package pl.vm.tictactoebackend.web;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.vm.tictactoebackend.domain.GameService;
 import pl.vm.tictactoebackend.domain.GameDTO;
+import pl.vm.tictactoebackend.domain.MarkFieldDTO;
 
 @RestController("/game")
+@Validated
 public class GameController {
     private final GameService gameService;
 
@@ -15,7 +19,19 @@ public class GameController {
     }
 
     @GetMapping
-    ResponseEntity<GameDTO> getCurrentGame(){
+    ResponseEntity<GameDTO> getCurrentGame() {
         return ResponseEntity.ok(gameService.getCurrentGame());
+    }
+
+    @PostMapping("/field/mark")
+    ResponseEntity<GameDTO> markField(
+            @RequestParam("player") String player,
+            @RequestBody MarkFieldDTO request
+    ) {
+        try {
+            return ResponseEntity.ok(gameService.markField(player, request));
+        } catch (IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
     }
 }
