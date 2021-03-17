@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {TicTacToeBoard} from '../models/tic-tac-toe-board.model';
 import {LoadCurrentGame, MarkField, Restart} from './root-store.actions';
-import {Subject, timer} from 'rxjs';
-import {filter, map, take} from 'rxjs/operators';
+import {EMPTY, Subject, timer} from 'rxjs';
+import {catchError, filter, map, take} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {TicTacToeSign} from '../models/current-game.model';
+import {CurrentGame, TicTacToeSign} from '../models/current-game.model';
 import {GameService} from '../services/game.service';
 
 export interface RootStateModel {
@@ -70,16 +70,21 @@ export class RootStore {
   @Action(MarkField)
   markField({getState, setState}: StateContext<RootStateModel>,
             {index}: MarkField): void {
-    const {currentPlayer, board} = getState();
-    const nextPlayer = currentPlayer === 'O' ? 'X' : 'O';
-    const nextBoard = board.withMarkedField(index, currentPlayer);
+    this.gameService.markField(getState().currentPlayer, index).pipe(
+      catchError(err => {
+        this.snackBar.open(err);
+        return EMPTY;
+      })
+    ).subscribe(({currentPlayer, board}: CurrentGame) => {
+      setState({
+        currentPlayer,
+        board
+      });
 
-    this.gameFinished$.next(nextBoard);
-
-    setState({
-      currentPlayer: nextPlayer,
-      board: nextBoard
+      this.gameFinished$.next(board);
     });
+
+
   }
 
   @Action(Restart)
