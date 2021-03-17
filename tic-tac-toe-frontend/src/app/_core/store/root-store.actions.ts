@@ -13,3 +13,10 @@ export class Restart {
   constructor() {
   }
 }
+
+export class LoadCurrentGame {
+  static readonly type = '[Root] Load current game';
+
+  constructor() {
+  }
+}

@@ -1,9 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {RootStore, TicTacToeSign} from '../../_core/store/root-store';
+import {RootStore} from '../../_core/store/root-store';
 import {Index, TicTacToeBoard} from '../../_core/models/tic-tac-toe-board.model';
 import {RootStoreActions} from '../../_core/store';
+import {TicTacToeSign} from '../../_core/models/current-game.model';
+import {distinctUntilKeyChanged} from 'rxjs/operators';
+import * as equal from 'fast-deep-equal';
 
 @Component({
   selector: 'app-game',
@@ -15,8 +18,9 @@ export class GameComponent implements OnInit {
   @Select(RootStore.currentPlayer)
   currentPlayer$: Observable<TicTacToeSign>;
 
-  @Select(RootStore.currentBoard)
-  currentBoard$: Observable<TicTacToeBoard>;
+  currentBoard$: Observable<TicTacToeBoard> = this.store.select(RootStore.currentBoard).pipe(
+    distinctUntilKeyChanged('board', (a, b) => equal(a, b))
+  );
 
   currentIndex: Index;
 

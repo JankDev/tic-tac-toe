@@ -9,8 +9,10 @@ import pl.vm.tictactoebackend.domain.GameService;
 import pl.vm.tictactoebackend.domain.GameDTO;
 import pl.vm.tictactoebackend.domain.MarkFieldDTO;
 
-@RestController("/game")
+@RestController
+@RequestMapping("/game")
 @Validated
+@CrossOrigin //ugly but ok for a demo
 public class GameController {
     private final GameService gameService;
 

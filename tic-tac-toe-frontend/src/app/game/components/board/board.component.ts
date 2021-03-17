@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {TicTacToeSign} from '../../../_core/store/root-store';
 import {Index, TicTacToeBoard} from '../../../_core/models/tic-tac-toe-board.model';
+import {TicTacToeSign} from '../../../_core/models/current-game.model';
 
 @Component({
   selector: 'app-board',

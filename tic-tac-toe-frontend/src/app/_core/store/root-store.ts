@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {TicTacToeBoard} from '../models/tic-tac-toe-board.model';
-import {MarkField, Restart} from './root-store.actions';
-import {Subject} from 'rxjs';
+import {LoadCurrentGame, MarkField, Restart} from './root-store.actions';
+import {Subject, timer} from 'rxjs';
 import {filter, map, take} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
-
-export type TicTacToeSign = 'O' | 'X';
+import {TicTacToeSign} from '../models/current-game.model';
+import {GameService} from '../services/game.service';
 
 export interface RootStateModel {
   currentPlayer: TicTacToeSign;
@@ -37,7 +37,11 @@ export class RootStore {
   }
 
   constructor(private snackBar: MatSnackBar,
+              private gameService: GameService,
               private store: Store) {
+    timer(0, 500).pipe(
+    ).subscribe(_ => this.store.dispatch(new LoadCurrentGame()));
+
     this.gameFinished$.pipe(
       map(board => board.getWinner()),
       filter(it => !!it),
@@ -47,6 +51,21 @@ export class RootStore {
       this.store.dispatch(new Restart());
     });
   }
+
+  @Action(LoadCurrentGame)
+  loadCurrentGame(
+    {patchState}: StateContext<RootStateModel>
+  ): void {
+    this.gameService.getCurrentBoard().pipe(
+      take(1)
+    ).subscribe(currentGame => {
+      patchState({
+        currentPlayer: currentGame.currentPlayer,
+        board: currentGame.board
+      });
+    });
+  }
+
 
   @Action(MarkField)
   markField({getState, setState}: StateContext<RootStateModel>,

@@ -1,5 +1,4 @@
-import {TicTacToeSign} from '../store/root-store';
-
+import {TicTacToeSign} from './current-game.model';
 
 export class Index {
   constructor(public row: number, public col: number) {
