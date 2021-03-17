@@ -34,4 +34,9 @@ public class GameController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
+
+    @PostMapping("/reset")
+    ResponseEntity<GameDTO> reset() {
+       return ResponseEntity.ok(this.gameService.reset());
+    }
 }

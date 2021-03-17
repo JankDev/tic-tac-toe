@@ -5,8 +5,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GameService {
-    private String currentPlayer = "X";
-    private Board currentBoard = Board.empty();
+    private String currentPlayer;
+    private Board currentBoard;
+
+    public GameService() {
+        this.currentPlayer = "X";
+        this.currentBoard = Board.empty();
+    }
+
+    public GameService(String currentPlayer, Board currentBoard) {
+        this.currentPlayer = currentPlayer;
+        this.currentBoard = currentBoard;
+    }
 
     public GameDTO getCurrentGame() {
         return new GameDTO(currentPlayer, currentBoard);
@@ -20,5 +30,14 @@ public class GameService {
         } else {
             throw new IllegalStateException("It's not your turn");
         }
+    }
+
+    /*
+    Both players can reset
+     */
+    public GameDTO reset() {
+        this.currentPlayer = "X";
+        this.currentBoard = Board.empty();
+        return getCurrentGame();
     }
 }
