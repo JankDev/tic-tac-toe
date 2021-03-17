@@ -33,7 +33,7 @@ public class GameService {
     }
 
     /*
-    Both players can reset
+        Both players can reset
      */
     public GameDTO reset() {
         this.currentPlayer = "X";

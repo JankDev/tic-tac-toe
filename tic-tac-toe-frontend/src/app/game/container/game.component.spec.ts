@@ -4,14 +4,17 @@ import {GameComponent} from './game.component';
 import {NgxsModule, Store} from '@ngxs/store';
 import {MarkField, Restart} from '../../_core/store/root-store.actions';
 import {Index} from '../../_core/models/tic-tac-toe-board.model';
+import {EMPTY, Observable} from 'rxjs';
+import SpyObj = jasmine.SpyObj;
 
 describe('GameComponent', () => {
-  let store: Store;
+  let store: SpyObj<Store>;
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
 
   beforeEach(async () => {
     store = jasmine.createSpyObj<Store>(['dispatch', 'select']);
+    store.select.and.returnValue(EMPTY);
     await TestBed.configureTestingModule({
       declarations: [GameComponent],
       imports: [NgxsModule.forRoot()],

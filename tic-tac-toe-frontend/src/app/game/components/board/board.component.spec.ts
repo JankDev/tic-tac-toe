@@ -3,9 +3,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {BoardComponent} from './board.component';
 import {Component} from '@angular/core';
 import {Index, TicTacToeBoard} from '../../../_core/models/tic-tac-toe-board.model';
-import {TicTacToeSign} from '../../../_core/store/root-store';
 import {By} from '@angular/platform-browser';
 import {take} from 'rxjs/operators';
+import {TicTacToeSign} from '../../../_core/models/current-game.model';
 
 describe('BoardComponent', () => {
   let hostComponent: TestHostComponent;

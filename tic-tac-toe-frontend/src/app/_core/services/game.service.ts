@@ -14,7 +14,7 @@ export class GameService {
   constructor(private http: HttpClient) {
   }
 
-  getCurrentBoard(): Observable<CurrentGame> {
+  getCurrentGame(): Observable<CurrentGame> {
     return this.http.get<CurrentGame>(`${environment.baseUrl}/game`);
   }
 
@@ -27,5 +27,9 @@ export class GameService {
     return this.http.post<CurrentGame>(`${environment.baseUrl}/game/field/mark`, body, {params}).pipe(
       catchError(err => throwError(err))
     );
+  }
+
+  reset(): Observable<CurrentGame> {
+    return this.http.post<CurrentGame>(`${environment.baseUrl}/game/reset`, null);
   }
 }

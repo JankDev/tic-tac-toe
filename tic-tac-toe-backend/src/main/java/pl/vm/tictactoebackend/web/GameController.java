@@ -12,7 +12,7 @@ import pl.vm.tictactoebackend.domain.MarkFieldDTO;
 @RestController
 @RequestMapping("/game")
 @Validated
-@CrossOrigin //ugly but ok for a demo
+@CrossOrigin //ugly but ok for a non production app
 public class GameController {
     private final GameService gameService;
 

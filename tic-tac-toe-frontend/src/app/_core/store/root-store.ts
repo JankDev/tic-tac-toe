@@ -47,7 +47,7 @@ export class RootStore {
       filter(it => !!it),
       take(1)
     ).subscribe(winner => {
-      this.snackBar.open(winner);
+      this.snackBar.open(winner, null, {duration: 1000});
       this.store.dispatch(new Restart());
     });
   }
@@ -56,7 +56,7 @@ export class RootStore {
   loadCurrentGame(
     {patchState}: StateContext<RootStateModel>
   ): void {
-    this.gameService.getCurrentBoard().pipe(
+    this.gameService.getCurrentGame().pipe(
       take(1)
     ).subscribe(currentGame => {
       patchState({
@@ -72,7 +72,7 @@ export class RootStore {
             {index}: MarkField): void {
     this.gameService.markField(getState().currentPlayer, index).pipe(
       catchError(err => {
-        this.snackBar.open(err);
+        this.snackBar.open(err, null, {duration: 1000});
         return EMPTY;
       })
     ).subscribe(({currentPlayer, board}: CurrentGame) => {
@@ -80,8 +80,7 @@ export class RootStore {
         currentPlayer,
         board
       });
-
-      this.gameFinished$.next(board);
+      this.gameFinished$.next(new TicTacToeBoard(board.board));
     });
 
 
@@ -89,9 +88,10 @@ export class RootStore {
 
   @Action(Restart)
   restart({setState}: StateContext<RootStateModel>): void {
-    setState({
-      currentPlayer: 'X',
-      board: TicTacToeBoard.empty()
-    });
+    this.gameService.reset().subscribe(({currentPlayer, board}: CurrentGame) => setState({
+        currentPlayer,
+        board
+      })
+    );
   }
 }
