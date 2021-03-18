@@ -45,7 +45,6 @@ export class RootStore {
     this.gameFinished$.pipe(
       map(board => board.getWinner()),
       filter(it => !!it),
-      take(1)
     ).subscribe(winner => {
       this.snackBar.open(winner, null, {duration: 1000});
       this.store.dispatch(new Restart());
@@ -59,6 +58,8 @@ export class RootStore {
     this.gameService.getCurrentGame().pipe(
       take(1)
     ).subscribe(currentGame => {
+      this.gameFinished$.next(new TicTacToeBoard(currentGame.board.board));
+
       patchState({
         currentPlayer: currentGame.currentPlayer,
         board: currentGame.board
@@ -80,10 +81,7 @@ export class RootStore {
         currentPlayer,
         board
       });
-      this.gameFinished$.next(new TicTacToeBoard(board.board));
     });
-
-
   }
 
   @Action(Restart)

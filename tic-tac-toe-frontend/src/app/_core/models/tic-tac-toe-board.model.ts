@@ -11,6 +11,7 @@ const winningPatterns = [
   {winner: 'X', pattern: /[OXE]{6}XXX/},
   {winner: 'X', pattern: /(X[OXE]{2}){3}/},
   {winner: 'X', pattern: /([OXE]{2}X){3}/},
+  {winner: 'X', pattern: /([OXE]X[OXE]){3}/},
   {winner: 'X', pattern: /X[OXE]{2}[OXE]X[OXE][OXE]{2}X/},
   {winner: 'X', pattern: /[OXE]{2}X[OXE]X[OXE]X[OXE]{2}/},
   {winner: 'O', pattern: /OOO[OXE]{6}/},
@@ -18,6 +19,7 @@ const winningPatterns = [
   {winner: 'O', pattern: /[OXE]{6}OOO/},
   {winner: 'O', pattern: /(O[OXE]{2}){3}/},
   {winner: 'O', pattern: /([OXE]{2}O){3}/},
+  {winner: 'O', pattern: /([OXE]O[OXE]){3}/},
   {winner: 'O', pattern: /O[OXE]{2}[OXE]O[OXE][OXE]{2}O/},
   {winner: 'O', pattern: /[OXE]{2}O[OXE]O[OXE]O[OXE]{2}/},
 ];
@@ -43,13 +45,9 @@ export class TicTacToeBoard {
       return col === '' ? 'E' : col;
     }
 
-    if (this.hasGameFinished()) {
-      return 'DRAW';
-    } else {
-      const boardAsString = this.board.map(row => row.map(emptyToE).join('')).join('');
-      const win = winningPatterns.find(({winner, pattern}) => pattern.test(boardAsString))?.winner;
-      return !!win ? WIN_MESSAGE(win) : null;
-    }
+    const boardAsString = this.board.map(row => row.map(emptyToE).join('')).join('');
+    const win = winningPatterns.find(({winner, pattern}) => pattern.test(boardAsString))?.winner;
+    return !!win ? WIN_MESSAGE(win) : this.hasGameFinished() ? 'DRAW' : null;
   }
 
   hasGameFinished(): boolean {
