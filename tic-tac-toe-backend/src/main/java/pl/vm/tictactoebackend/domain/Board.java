@@ -5,6 +5,9 @@ import java.util.Arrays;
 public class Board {
     private String[][] board;
 
+    public Board() {
+    }
+
     public Board(String[][] board) {
         this.board = board;
     }
@@ -13,6 +16,10 @@ public class Board {
         final var emptyBoard = new String[3][3];
         Arrays.fill(emptyBoard, new String[]{"", "", ""});
         return new Board(emptyBoard);
+    }
+
+    public void setBoard(String[][] board) {
+        this.board = board;
     }
 
     public String[][] getBoard() {
