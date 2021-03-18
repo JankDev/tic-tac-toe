@@ -39,4 +39,4 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `npm run start:e2e` and then `npm run e2e` 
+Run `npm run start:e2e` and then `npm run e2e`. The backend must run too.
